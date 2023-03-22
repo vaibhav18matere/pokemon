@@ -1,24 +1,24 @@
 import React from "react";
 import Layout from "@/components/Layout";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function pokemon({ pokeman }) {
-  console.log(pokeman);
-
   return (
     <>
       <Layout title={pokeman.name}>
-        <h1 className="font-extrabold mr-2 text-4xl">{pokeman.name}</h1>
-        <img
+        <h1 className="font-extrabold mr-1 text-4xl">{pokeman.name}</h1>
+        <Image
           src={pokeman.image}
           alt={pokeman.name}
           height={200}
           width={200}
-          className="mx-auto"
-        />
-        <span className="font-bold mr-2">Weight : {pokeman.weight}</span>
-        <span className="font-bold mr-2">Height : {pokeman.height}</span>
-        <h2 className="mt-6 mb-2 text-2xl">Types</h2>
+          className=""
+          style={{ maxWidth: "100%", height: "auto" }}
+        ></Image>
+        <div className="font-bold">Weight : {pokeman.weight}</div>
+        <div className="font-bold">Height : {pokeman.height}</div>
+        <h2 className="mt-4 mb-2 text-2xl font-bold">Types</h2>
         {pokeman.types.map((type, index) => (
           <p key={index}>{type.type.name}</p>
         ))}
