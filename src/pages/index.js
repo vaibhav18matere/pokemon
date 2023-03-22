@@ -5,39 +5,45 @@ import { useRouter } from "next/router";
 
 export default function Home({ pokemon }) {
   const router = useRouter();
-  // console.log(pokemon);
 
   return (
     <Layout title="Pokemon App">
-      <h1 className="text-2xl text-center">Pokemon NextJS App</h1>
-      <ul>
-        {pokemon.map((pokeman, index) => (
-          <li
-            className="cursor-pointer text-white border p-4 border-grey my-4 hover:shadow-md capitalize text-lg bg-gray-600 rounded-md"
-            key={index}
-            onClick={() => {
-              router.push(`/pokemon?id=${index + 1}`);
-            }}
-          >
-            <div>
-              <span className="font-bold">{index + 1}.</span>
-              <span className="m-8">{pokeman.name}</span>
-              <img
-                src={pokeman.image}
-                alt={pokeman.name}
-                height={150}
-                width={150}
-              />
+      <div className="w-full">
+        <div className="">
+          <input
+            className="w-full rounded-md shadow-md h-10 p-2 text-xl"
+            type="text"
+            placeholder="Search Pokemon..."
+          />
+        </div>
+        <div className="cursor-pointer">
+          {pokemon.map((pokeman, index) => (
+            <div
+              className="m-4"
+              key={index}
+              onClick={() => {
+                router.push(`/pokemon?id=${index + 1}`);
+              }}
+            >
+              <div className="p-4 bg-white rounded-xl shadow-md">
+                <span className="font-bold">{index + 1}.</span>
+                <span className="font-bold p-1 ml-4">{pokeman.name}</span>
+                <Image
+                  src={pokeman.image}
+                  alt={pokeman.name}
+                  height={150}
+                  width={150}
+                ></Image>
+              </div>
             </div>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      </div>
     </Layout>
   );
 }
 
 export async function getStaticProps(context) {
-  //SSG
   try {
     const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=150");
     const { results } = await res.json();
@@ -45,7 +51,6 @@ export async function getStaticProps(context) {
     const pokemon = results.map((result, index) => {
       const paddedIndex = ("00" + (index + 1)).slice(-3);
       const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${paddedIndex}.png`;
-      // console.log(pokemon);
 
       return {
         ...result,
